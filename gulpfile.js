@@ -1,5 +1,5 @@
 
-let project_folder = "dist";
+let project_folder = ".";
 let sourse_folder = "app";
 
 let path = {
@@ -26,7 +26,7 @@ let path = {
       img: sourse_folder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
       icon: sourse_folder + "/iconsprite/**/*.svg",
    },
-   clean: "./" + project_folder + "/"
+   // clean: "./" + project_folder + "/"
 }
 
 let { src, dest } = require("gulp"),
@@ -54,7 +54,8 @@ let { src, dest } = require("gulp"),
 function browserSync(params) {
    browsersync.init({
       server:{
-         baseDir: "./" + project_folder + "/"
+         // baseDir: "./" + project_folder + "/"
+         baseDir: "../test/"
       },
       port: 3000,
       notify: false
@@ -64,7 +65,7 @@ function browserSync(params) {
 function html() {
    return src(path.src.html)
    .pipe(pug({
-      pretty: true
+      // pretty: true
    }))
    .pipe(webp_html())
    .pipe(dest(path.build.html))
@@ -194,11 +195,11 @@ function watchFiles(params) {
    // gulp.watch([path.watch.icon], svgSprite);
 }
 
-function clean(params) {
-   return del(path.clean);
-}
+// function clean(params) {
+//    return del(path.clean);
+// }
 
-let build = gulp.series(clean, gulp.parallel(js, css, html, images ));
+let build = gulp.series(gulp.parallel(js, css, html, images ));
 let watch = gulp.parallel(build, watchFiles, browserSync);
 
 // exports.svgSprite = svgSprite;
